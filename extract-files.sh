@@ -112,10 +112,10 @@ adb pull /system/usr/keychars/tegra-kbc.kcm.bin ../../../vendor/$VENDOR/$DEVICE/
 adb pull /system/usr/keychars/gpio-keys.kcm.bin ../../../vendor/$VENDOR/$DEVICE/proprietary
 
 # Pull keylayout files
-adb pull /system/usr/keylayout/gpio-keys.kl ../../../vendor/$VENDOR/$DEVICE/proprietary
-adb pull /system/usr/keylayout/nvec_keyboard.kl ../../../vendor/$VENDOR/$DEVICE/proprietary
-adb pull /system/usr/keylayout/tegra-kbc.kl ../../../vendor/$VENDOR/$DEVICE/proprietary
-adb pull /system/usr/keylayout/usb_keyboard_102_en_us.kl ../../../vendor/$VENDOR/$DEVICE/proprietary
+adb pull /system/usr/keychars/gpio-keys.kl ../../../vendor/$VENDOR/$DEVICE/proprietary
+adb pull /system/usr/keychars/nvec_keyboard.kl ../../../vendor/$VENDOR/$DEVICE/proprietary
+adb pull /system/usr/keychars/tegra-kbc.kl ../../../vendor/$VENDOR/$DEVICE/proprietary
+adb pull /system/usr/keychars/usb_keyboard_102_en_us.kl ../../../vendor/$VENDOR/$DEVICE/proprietary
 
 # Pull bin files
 adb pull /system/bin/nvmm_vc1dec.axf ../../../vendor/$VENDOR/$DEVICE/proprietary
