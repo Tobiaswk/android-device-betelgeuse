@@ -16,10 +16,14 @@ on fs
     mkdir /devlog 0700 root root
 #   mkdir /misc 0770 system misc
 #   mount ext2 /dev/block/mmcblk0p1 /system ro
-    mount ext4 /dev/block/mmcblk0p1 /system wait ro data=ordered noauto_da_alloc
-    mount ext4 /dev/block/mmcblk0p6 /data rw nosuid nodev
-    mount ext4 /dev/block/mmcblk0p2 /cache rw nosuid nodev
-#   mount ext4 /dev/block/mmcblk0p3 /misc rw nosuid nodev
+#   mount ext4 /dev/block/mmcblk0p1 /system wait ro data=ordered noauto_da_alloc
+#   mount ext4 /dev/block/mmcblk0p6 /data rw nosuid nodev
+#   mount ext4 /dev/block/mmcblk0p2 /cache rw nosuid nodev
+#   mount ext4 /dev/block/mmcblk0p3 /misc rw nosuid nodev wait noatime
+    mount ext4 /dev/block/mmcblk0p1 /system wait ro data=writeback,nobh
+    mount ext4 /dev/block/mmcblk0p6 /data rw wait data=writeback,nobh noatime nosuid nodev
+    mount ext4 /dev/block/mmcblk0p2 /cache rw waiti data=writeback,nobh noatime nosuid nodev
+    mount debugfs debugfs /sys/kernel/debug
 
     # Create dump dir and collect dumps.
     # Do this before we mount cache so eventually we can use cache for
@@ -46,6 +50,12 @@ on fs
 
 on boot
     mount debugfs /sys/kernel/debug /sys/kernel/debug
+
+# create mount points for sdcard and usbflash
+    mount vfat /dev/block/mmcblk0p8 /mnt/sdcard rw wait noatime nosuid nodev
+    mkdir /mnt/sdcard/sdcard-disk0
+    mkdir /mnt/sdcard/usb-disk0
+    exec /system/xbin/umount /mnt/sdcard
 
 # create basic filesystem structure
     mkdir /data/misc 01771 system misc
@@ -128,10 +138,12 @@ on boot
     chmod 770 /dev/video0
 
 # wlan permissions
-    mount ext4 /dev/block/mmcblk0p1 /system wait remount rw data=ordered noauto_da_alloc
+    #mount ext4 /dev/block/mmcblk0p1 /system wait remount rw data=ordered noauto_da_alloc
+    mount ext4 /dev/block/mmcblk0p1 /system wait remount rw
     chmod 0775 /system/wifi/wpa_supplicant
     exec /system/xbin/cp /system/wifi/wpa_supplicant /system/bin/
-    mount ext4 /dev/block/mmcblk0p1 /system wait remount ro data=ordered noauto_da_alloc
+    #mount ext4 /dev/block/mmcblk0p1 /system wait remount ro data=ordered noauto_da_alloc
+    mount ext4 /dev/block/mmcblk0p1 /system wait remount ro
     insmod /system/wifi/ar6000.ko
     mkdir /data/misc/wifi 0771 wifi wifi  
     mkdir /data/misc/wifi/sockets 0771 wifi wifi 
